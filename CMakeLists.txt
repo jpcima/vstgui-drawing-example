@@ -1,14 +1,20 @@
 cmake_minimum_required(VERSION 3.5)
 project(vstgui-drawing-example)
-add_subdirectory(vstgui/vstgui EXCLUDE_FROM_ALL)
 
 if(UNIX AND NOT APPLE)
     set(LINUX TRUE)
 endif()
 
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}")
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/libs")
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/libs")
+if(WIN32)
+  add_definitions(-DUNICODE)
+  add_definitions(-D_UNICODE)
+endif()
+
+add_subdirectory(vstgui/vstgui EXCLUDE_FROM_ALL)
+
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/$<0:>")
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/libs/$<0:>")
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/libs/$<0:>")
 
 ##########################################################################################
 # VSTGUI drawing Example Application

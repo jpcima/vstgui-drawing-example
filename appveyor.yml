@@ -1,0 +1,29 @@
+version: build-{build}
+configuration: Release
+
+environment:
+  matrix:
+  - job_name: Windows x86
+    appveyor_build_worker_image: Visual Studio 2019
+    platform: x86
+
+for:
+- matrix:
+    only:
+    - job_name: Windows x86
+  before_build:
+    - git submodule update --init --recursive
+    - cd vstgui
+    - git apply ..\patch\0001-Fix-link-with-wWinMain-MSVC-2019-x86.patch
+    - cd ..
+  build_script:
+    - mkdir build
+    - cd build
+    - cmake .. -G"Visual Studio 16 2019" -A"Win32" -DCMAKE_BUILD_TYPE=Release
+    - cmake --build . --config Release -j2
+    - cd Release
+    - cmake -E tar cvf ..\..\drawing.zip --format=zip drawing
+    - cd ../..
+  artifacts:
+  - name: x86 Program
+    path: "drawing.zip"
