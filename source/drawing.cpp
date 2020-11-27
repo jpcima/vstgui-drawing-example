@@ -57,6 +57,7 @@ public:
 		kTagDrawIntegral,
 		kTagDrawRotation,
 		kTagLineWidth,
+		kTagAntialias,
 	};
 
 	enum {
@@ -159,6 +160,15 @@ public:
 			menu->addEntry ("2");
 			menu->setCurrent (1);
 			++row;
+
+			label = createLabel (row, "Antialias");
+			frame->addView (label);
+			menu = createMenu (row, kTagAntialias);
+			frame->addView (menu);
+			menu->addEntry ("off");
+			menu->addEntry ("on");
+			menu->setCurrent (0);
+			++row;
 		}
 
 		return frame;
@@ -210,6 +220,9 @@ public:
 					area->setLineWidth (2);
 					break;
 			}
+			break;
+		case kTagAntialias:
+			area->setAntialias (pControl->getValue() != 0);
 			break;
 		}
 	}

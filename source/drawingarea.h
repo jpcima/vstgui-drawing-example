@@ -18,6 +18,7 @@ public:
 	void setDrawingIntegral (bool integral);
 	void setPathRotation (CCoord rotation);
 	void setLineWidth (CCoord width);
+	void setAntialias (bool aa);
 
 protected:
 	void draw (CDrawContext *pContext) override;
@@ -47,4 +48,5 @@ private:
 	bool drawingIntegral = false;
 	CCoord pathRotation = 0;
 	CCoord lineWidth = 1;
+	bool antialias = false;
 };

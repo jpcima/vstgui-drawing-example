@@ -48,6 +48,15 @@ void DrawingArea::setLineWidth (CCoord width)
 	invalid ();
 }
 
+void DrawingArea::setAntialias (bool aa)
+{
+	if (antialias == aa)
+		return;
+
+	antialias = aa;
+	invalid ();
+}
+
 void DrawingArea::draw (CDrawContext *pContext)
 {
 	const CRect bounds = getViewSize();
@@ -55,6 +64,8 @@ void DrawingArea::draw (CDrawContext *pContext)
 	int drawMode = 0;
 	if (!drawingIntegral)
 		drawMode |= kNonIntegralMode;
+	if (antialias)
+		drawMode |= kAntiAliasing;
 	pContext->setDrawMode (drawMode);
 
 	pContext->setLineWidth (lineWidth);
